@@ -30,8 +30,8 @@ const syncUserDeletion = inngest.createFunction(
     async ({ event }) => {
         const { data } = event;
         await prisma.user.delete({
-            data: {
-                where: { id: data.id }
+            where: {
+                id: data.id
             }
         });
         console.log("Syncing user from Clerk:", event.data);
@@ -59,4 +59,4 @@ const syncUserUpdated = inngest.createFunction(
 )
 
 // Create an empty array where we'll export future Inngest functions
-export const functions = [syncUserFunction, syncUserUpdated, syncUserDeletion];
+export const functions = [syncUserFunction, syncUserDeletion, syncUserUpdated];
