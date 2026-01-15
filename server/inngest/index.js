@@ -18,7 +18,6 @@ const syncUserFunction = inngest.createFunction(
                 image: data?.image_url,
             }
         });
-        console.log("Syncing user from Clerk:", event.data);
         // Add your function logic here
     }
 )
@@ -34,7 +33,6 @@ const syncUserDeletion = inngest.createFunction(
                 id: data.id
             }
         });
-        console.log("Syncing user from Clerk:", event.data);
         // Add your function logic here
     }
 )
@@ -53,10 +51,14 @@ const syncUserUpdated = inngest.createFunction(
                 image: data?.image_url,
             }
         });
-        console.log("Syncing user from Clerk:", event.data);
+
         // Add your function logic here
     }
 )
 
 // Create an empty array where we'll export future Inngest functions
-export const functions = [syncUserFunction, syncUserDeletion, syncUserUpdated];
+export const functions = [
+    syncUserFunction,
+    syncUserDeletion,
+    syncUserUpdated
+];
