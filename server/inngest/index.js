@@ -1,3 +1,68 @@
+// import { Inngest } from "inngest";
+// import prisma from "../configs/prisma.js";
+
+// // Create a client to send and receive events
+// export const inngest = new Inngest({ id: "project-management" });
+
+// //inngest functions will be added here
+// const syncUserFunction = inngest.createFunction(
+//     { id: 'sync-user-from-clerk' },
+//     { event: 'clerk/user.created' },
+//     async ({ event }) => {
+//         const { data } = event
+//         await prisma.user.create({
+//             data: {
+//                 id: data.id,
+//                 email: data?.email_addresses[0]?.email_address,
+//                 name: data?.first_name + " " + data?.last_name,
+//                 image: data?.image_url,
+//             }
+//         });
+//         // Add your function logic here
+//     }
+// )
+
+// //inngest functions to deleted user
+// const syncUserDeletion = inngest.createFunction(
+//     { id: 'delete-user-with-clerk' },
+//     { event: 'clerk/user.deleted' },
+//     async ({ event }) => {
+//         const { data } = event
+//         await prisma.user.delete({
+//             where: {
+//                 id: data.id
+//             }
+//         });
+//         // Add your function logic here
+//     }
+// )
+
+// //inngest functions will be update here
+// const syncUserUpdated = inngest.createFunction(
+//     { id: 'update-user-from-clerk' },
+//     { event: 'clerk/user.updated' },
+//     async ({ event }) => {
+//         const { data } = event
+//         await prisma.user.update({
+//             where: { id: data.id },
+//             data: {
+//                 email: data?.email_addresses[0]?.email_address,
+//                 name: data?.first_name + " " + data?.last_name,
+//                 image: data?.image_url,
+//             }
+//         });
+
+//         // Add your function logic here
+//     }
+// )
+
+// // Create an empty array where we'll export future Inngest functions
+// export const functions = [
+//     syncUserFunction,
+//     syncUserDeletion,
+//     syncUserUpdated
+// ];
+
 import { Inngest } from "inngest";
 import prisma from "../configs/prisma.js";
 
@@ -7,9 +72,9 @@ export const inngest = new Inngest({ id: "project-management" });
 //inngest functions will be added here
 const syncUserFunction = inngest.createFunction(
     { id: 'sync-user-from-clerk' },
-    { event: 'clerk/user.created' },
+    { event: 'webhook-integration/user.created' },
     async ({ event }) => {
-        const { data } = event
+        const { data } = event;
         await prisma.user.create({
             data: {
                 id: data.id,
@@ -25,12 +90,12 @@ const syncUserFunction = inngest.createFunction(
 //inngest functions to deleted user
 const syncUserDeletion = inngest.createFunction(
     { id: 'delete-user-with-clerk' },
-    { event: 'clerk/user.deleted' },
+    { event: 'webhook-integration/user.deleted' },
     async ({ event }) => {
-        const { data } = event
+        const { data } = event;
         await prisma.user.delete({
-            where: {
-                id: data.id
+            data: {
+                where: { id: data.id }
             }
         });
         // Add your function logic here
@@ -40,9 +105,9 @@ const syncUserDeletion = inngest.createFunction(
 //inngest functions will be update here
 const syncUserUpdated = inngest.createFunction(
     { id: 'update-user-from-clerk' },
-    { event: 'clerk/user.updated' },
+    { event: 'webhook-integration/user.updated' },
     async ({ event }) => {
-        const { data } = event
+        const { data } = event;
         await prisma.user.update({
             where: { id: data.id },
             data: {
@@ -51,14 +116,9 @@ const syncUserUpdated = inngest.createFunction(
                 image: data?.image_url,
             }
         });
-
         // Add your function logic here
     }
 )
 
 // Create an empty array where we'll export future Inngest functions
-export const functions = [
-    syncUserFunction,
-    syncUserDeletion,
-    syncUserUpdated
-];
+export const functions = [syncUserFunction, syncUserUpdated, syncUserDeletion];
