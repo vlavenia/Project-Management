@@ -72,9 +72,9 @@ export const inngest = new Inngest({ id: "project-management" });
 //inngest functions will be added here
 const syncUserFunction = inngest.createFunction(
     { id: 'sync-user-from-clerk' },
-    { name: "webhook-integration/user.created" },
-    async ({ name }) => {
-        const { data } = name;
+    { event: "webhook-integration/user.created" },
+    async ({ event }) => {
+        const { data } = event;
         await prisma.user.create({
             data: {
                 id: data.id,
@@ -90,9 +90,9 @@ const syncUserFunction = inngest.createFunction(
 //inngest functions to deleted user
 const syncUserDeletion = inngest.createFunction(
     { id: 'delete-user-with-clerk' },
-    {name: "webhook-integration/user.deleted" },
-    async ({ name }) => {
-        const { data } = name;
+    { event: 'webhook-integration/user.deleted' },
+    async ({ event }) => {
+        const { data } = event;
         await prisma.user.delete({
             data: {
                 where: { id: data.id }
@@ -105,9 +105,9 @@ const syncUserDeletion = inngest.createFunction(
 //inngest functions will be update here
 const syncUserUpdated = inngest.createFunction(
     { id: 'update-user-from-clerk' },
-    { name: 'webhook-integration/user.updated' },
-    async ({ name }) => {
-        const { data } = name;
+    { event: 'webhook-integration/user.updated' },
+    async ({ event }) => {
+        const { data } = event;
         await prisma.user.update({
             where: { id: data.id },
             data: {
